@@ -1,0 +1,150 @@
+[gd_scene load_steps=10 format=3 uid="uid://3sb78h6j61td"]
+
+[ext_resource type="Script" path="res://scripts/melee_enemy.gd" id="1_h20gk"]
+[ext_resource type="Script" path="res://scripts/enemy_wepon.gd" id="2_6nj65"]
+[ext_resource type="Script" path="res://scripts/detection.gd" id="2_nkcc5"]
+
+[sub_resource type="Animation" id="Animation_fnn23"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ColorRect:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [3.14159]
+}
+
+[sub_resource type="Animation" id="Animation_3oc4t"]
+resource_name = "enemy_attack"
+length = 0.33
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.05, 0.33),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.33),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ColorRect:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.33),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-3.14159, -1.5708]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_h0g5l"]
+_data = {
+"RESET": SubResource("Animation_fnn23"),
+"enemy_attack": SubResource("Animation_3oc4t")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dvjtm"]
+radius = 12.0
+height = 38.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ts5ib"]
+size = Vector2(15, 35)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dhfik"]
+size = Vector2(65, 66)
+
+[node name="melee_enemy" type="CharacterBody2D"]
+script = ExtResource("1_h20gk")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Node2D/enemy_wepon")
+libraries = {
+"": SubResource("AnimationLibrary_h0g5l")
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -11.0
+offset_top = -18.0
+offset_right = 11.0
+offset_bottom = 18.0
+color = Color(1, 0, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_dvjtm")
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="enemy_wepon" type="Area2D" parent="Node2D"]
+script = ExtResource("2_6nj65")
+
+[node name="ColorRect" type="ColorRect" parent="Node2D/enemy_wepon"]
+visible = false
+offset_left = 11.0
+offset_top = 15.0
+offset_right = 14.0
+offset_bottom = 41.0
+rotation = 3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/enemy_wepon"]
+position = Vector2(21.5, 0)
+shape = SubResource("RectangleShape2D_ts5ib")
+
+[node name="detection" type="Area2D" parent="Node2D"]
+script = ExtResource("2_nkcc5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/detection"]
+position = Vector2(22.5, -4)
+shape = SubResource("RectangleShape2D_dhfik")
+
+[node name="Timer" type="Timer" parent="Node2D/detection"]
+
+[connection signal="body_entered" from="Node2D/enemy_wepon" to="Node2D/enemy_wepon" method="_on_body_entered"]
+[connection signal="body_entered" from="Node2D/detection" to="Node2D/detection" method="_on_body_entered"]
+[connection signal="body_exited" from="Node2D/detection" to="Node2D/detection" method="_on_body_exited"]
+[connection signal="timeout" from="Node2D/detection/Timer" to="Node2D/detection" method="_on_timer_timeout"]

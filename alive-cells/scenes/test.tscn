@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=3 uid="uid://2lfvua5kb45s"]
+
+[ext_resource type="PackedScene" uid="uid://bv4khfxhjtmgu" path="res://scenes/player.tscn" id="1_t61po"]
+[ext_resource type="PackedScene" uid="uid://3sb78h6j61td" path="res://scenes/melee_enemy.tscn" id="2_ebjfp"]
+[ext_resource type="Script" path="res://scripts/platform.gd" id="3_skx6n"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lu40f"]
+size = Vector2(903.5, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8xfd1"]
+size = Vector2(119, 20)
+
+[node name="test" type="Node2D"]
+
+[node name="melee_enemy" parent="." instance=ExtResource("2_ebjfp")]
+position = Vector2(911, 389)
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("1_t61po")]
+position = Vector2(450, 393)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
+offset_left = 84.0
+offset_top = 508.0
+offset_right = 985.0
+offset_bottom = 541.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(534, 524)
+shape = SubResource("RectangleShape2D_lu40f")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(12, 80)
+script = ExtResource("3_skx6n")
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D2"]
+offset_left = 171.0
+offset_top = 357.0
+offset_right = 290.0
+offset_bottom = 377.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(230, 367)
+rotation = 3.14159
+scale = Vector2(1, -1)
+shape = SubResource("RectangleShape2D_8xfd1")
+one_way_collision = true
+
+[node name="Timer" type="Timer" parent="StaticBody2D2"]
+wait_time = 0.3
+one_shot = true
+
+[connection signal="timeout" from="StaticBody2D2/Timer" to="StaticBody2D2" method="_on_timer_timeout"]
