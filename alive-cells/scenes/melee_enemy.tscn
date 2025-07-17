@@ -16,7 +16,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [true]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -134,6 +134,7 @@ rotation = 3.14159
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/enemy_wepon"]
 position = Vector2(21.5, 0)
 shape = SubResource("RectangleShape2D_ts5ib")
+disabled = true
 
 [node name="detection" type="Area2D" parent="Node2D"]
 script = ExtResource("2_nkcc5")

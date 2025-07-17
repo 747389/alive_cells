@@ -2,20 +2,30 @@ extends CharacterBody2D
 
 
 const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+const JUMP_VELOCITY = -350.0
 
+@export var coins_ui: Node
+@export var health_ui: Node
+var potion_stage: int = 5
+var potion_stage_info: Dictionary = {
+	"5" = "res://assests/potions (full).png",
+	"4" = "res://assests/potion (1 empty).png",
+	"3" = "res://assests/potions (2 empty).png",
+	"2" = "res://assests/potions (3 empty).png",
+	"1" = "res://assests/potions ( all empty).png"
+}
 var can_attack: bool = true
+var coins: int = 0
 var _health: int = 10
-var health_potions: int = 3
-var health_gained: int = 3
+var health_potions: int = 4
+var health_gained: int = 2
 var max_health: int = 10
+var double_jump: int = 1
 var health: int:
 	get:
 		return _health
 	set(value):
 		_health = min(value, max_health)
-
-
 
 
 func _physics_process(delta: float) -> void:
@@ -24,8 +34,12 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 
 	# Handle jump.
-	if Input.is_action_just_pressed("W") and is_on_floor():
+	if Input.is_action_just_pressed("W") and is_on_floor() or Input.is_action_just_pressed("W") and double_jump > 0:
 		velocity.y = JUMP_VELOCITY
+		double_jump -= 1
+
+	if is_on_floor():
+		double_jump = 1
 
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_axis("A", "D")
@@ -39,11 +53,19 @@ func _physics_process(delta: float) -> void:
 		$Node2D/wepon/AnimationPlayer.play("player_attack")
 		can_attack = false
 		$attack.start()
+	
+	if Input.is_action_just_pressed("S") and is_on_floor():
+		position.y += 1
+	
 	move_and_slide()
 
-	if Input.is_action_just_pressed("Q") and health_potions >= 1:
+	if Input.is_action_just_pressed("Q") and health_potions >= 1 and health < 10:
 		health_potions -= 1
 		health += health_gained
+		health_ui.value = health
+		potion_stage -= 1
+		$"Potions(full)".texture = load(potion_stage_info[str(potion_stage)])
+
 
 
 func _on_attack_timeout() -> void:
@@ -52,5 +74,14 @@ func _on_attack_timeout() -> void:
 
 func hit():
 	health -= 1
+	print(health)
+	health_ui.value = health
 	if health <= 0:
-		get_tree().call_deferred("change_scene_to_file", "res://scenes/test.tscn")
+		get_tree().call_deferred("change_scene_to_file" , "res://scenes/main_menu.tscn")
+
+
+func _on_coin_entered(area: Area2D) -> void:
+	if area.has_meta("coin"):
+		coins += 1
+		area.queue_free()
+		coins_ui.text = str(coins) + " x"

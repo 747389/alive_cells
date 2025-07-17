@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://2lfvua5kb45s"]
+[gd_scene load_steps=7 format=3 uid="uid://2lfvua5kb45s"]
 
 [ext_resource type="PackedScene" uid="uid://bv4khfxhjtmgu" path="res://scenes/player.tscn" id="1_t61po"]
 [ext_resource type="PackedScene" uid="uid://3sb78h6j61td" path="res://scenes/melee_enemy.tscn" id="2_ebjfp"]
 [ext_resource type="Script" path="res://scripts/platform.gd" id="3_skx6n"]
+[ext_resource type="PackedScene" uid="uid://cehomlaj540c" path="res://scenes/coin.tscn" id="4_ayfoq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lu40f"]
 size = Vector2(903.5, 32)
@@ -33,15 +34,16 @@ shape = SubResource("RectangleShape2D_lu40f")
 [node name="StaticBody2D2" type="StaticBody2D" parent="."]
 position = Vector2(12, 80)
 script = ExtResource("3_skx6n")
+metadata/platform = true
 
 [node name="ColorRect" type="ColorRect" parent="StaticBody2D2"]
 offset_left = 171.0
-offset_top = 357.0
+offset_top = 326.0
 offset_right = 290.0
-offset_bottom = 377.0
+offset_bottom = 346.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
-position = Vector2(230, 367)
+position = Vector2(230, 336)
 rotation = 3.14159
 scale = Vector2(1, -1)
 shape = SubResource("RectangleShape2D_8xfd1")
@@ -50,5 +52,8 @@ one_way_collision = true
 [node name="Timer" type="Timer" parent="StaticBody2D2"]
 wait_time = 0.3
 one_shot = true
+
+[node name="coin" parent="." instance=ExtResource("4_ayfoq")]
+position = Vector2(233, 386)
 
 [connection signal="timeout" from="StaticBody2D2/Timer" to="StaticBody2D2" method="_on_timer_timeout"]
