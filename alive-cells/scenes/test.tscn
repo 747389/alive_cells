@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bv4khfxhjtmgu" path="res://scenes/player.tscn" id="1_t61po"]
 [ext_resource type="PackedScene" uid="uid://3sb78h6j61td" path="res://scenes/melee_enemy.tscn" id="2_ebjfp"]
-[ext_resource type="Script" path="res://scripts/platform.gd" id="3_skx6n"]
+[ext_resource type="Script" uid="uid://blt78g5p3qeso" path="res://scripts/2_way_platform.gd" id="3_em6t2"]
 [ext_resource type="PackedScene" uid="uid://cehomlaj540c" path="res://scenes/coin.tscn" id="4_ayfoq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lu40f"]
@@ -33,7 +33,7 @@ shape = SubResource("RectangleShape2D_lu40f")
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="."]
 position = Vector2(12, 80)
-script = ExtResource("3_skx6n")
+script = ExtResource("3_em6t2")
 metadata/platform = true
 
 [node name="ColorRect" type="ColorRect" parent="StaticBody2D2"]

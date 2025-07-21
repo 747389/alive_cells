@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://3sb78h6j61td"]
 
-[ext_resource type="Script" path="res://scripts/melee_enemy.gd" id="1_h20gk"]
-[ext_resource type="Script" path="res://scripts/enemy_wepon.gd" id="2_6nj65"]
-[ext_resource type="Script" path="res://scripts/detection.gd" id="2_nkcc5"]
+[ext_resource type="Script" uid="uid://d1blue1hkimgp" path="res://scripts/melee_enemy.gd" id="1_h20gk"]
+[ext_resource type="Script" uid="uid://dn7pxn8a4dga4" path="res://scripts/enemy_wepon.gd" id="2_6nj65"]
+[ext_resource type="Script" uid="uid://dlkn6m4tswseu" path="res://scripts/detection.gd" id="2_nkcc5"]
 
 [sub_resource type="Animation" id="Animation_fnn23"]
 length = 0.001
@@ -85,8 +85,8 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h0g5l"]
 _data = {
-"RESET": SubResource("Animation_fnn23"),
-"enemy_attack": SubResource("Animation_3oc4t")
+&"RESET": SubResource("Animation_fnn23"),
+&"enemy_attack": SubResource("Animation_3oc4t")
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dvjtm"]
@@ -94,7 +94,7 @@ radius = 12.0
 height = 38.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ts5ib"]
-size = Vector2(15, 35)
+size = Vector2(17, 42.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dhfik"]
 size = Vector2(65, 66)
@@ -132,7 +132,7 @@ offset_bottom = 41.0
 rotation = 3.14159
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/enemy_wepon"]
-position = Vector2(21.5, 0)
+position = Vector2(20.5, -3.75)
 shape = SubResource("RectangleShape2D_ts5ib")
 disabled = true
 
