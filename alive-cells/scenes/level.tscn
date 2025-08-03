@@ -1,8 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://t48s7gujiidh"]
+[gd_scene load_steps=14 format=3 uid="uid://t48s7gujiidh"]
 
 [ext_resource type="PackedScene" uid="uid://bv4khfxhjtmgu" path="res://scenes/player.tscn" id="1_iddt7"]
 [ext_resource type="PackedScene" uid="uid://3sb78h6j61td" path="res://scenes/melee_enemy.tscn" id="2_hasie"]
 [ext_resource type="Script" uid="uid://dqudfo7yfgq3i" path="res://scripts/platform.gd" id="3_7aq13"]
+[ext_resource type="PackedScene" uid="uid://d4gua0llnkv3c" path="res://scenes/kowalski.tscn" id="4_ppgk2"]
+[ext_resource type="PackedScene" uid="uid://08q0nwkjk6m3" path="res://scenes/ranged_enemy.tscn" id="5_2r41h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mvfjs"]
 size = Vector2(1553.5, 20)
@@ -34,7 +36,7 @@ size = Vector2(841.5, 20)
 position = Vector2(112, -3)
 
 [node name="melee_enemy" parent="." instance=ExtResource("2_hasie")]
-position = Vector2(1313, -54)
+position = Vector2(1125, 1)
 
 [node name="platform" type="StaticBody2D" parent="."]
 script = ExtResource("3_7aq13")
@@ -126,5 +128,8 @@ offset_top = -10.0
 offset_right = 422.0
 offset_bottom = 10.0
 
-[node name="melee_enemy2" parent="." instance=ExtResource("2_hasie")]
-position = Vector2(2217, 10)
+[node name="Kowalski" parent="." instance=ExtResource("4_ppgk2")]
+position = Vector2(1479, -7)
+
+[node name="ranged_enemy" parent="." instance=ExtResource("5_2r41h")]
+position = Vector2(2339, 3)

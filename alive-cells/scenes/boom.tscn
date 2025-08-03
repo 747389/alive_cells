@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://r2jo50appp7o"]
+
+[sub_resource type="Curve" id="Curve_sj6ms"]
+_limits = [0.0, 10.0, 0.0, 1.0]
+_data = [Vector2(0, 10), 0.0, 1.60341, 0, 0, Vector2(0.784091, 0), -44.2589, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_vxrs2"]
+offsets = PackedFloat32Array(0, 0.506667, 1)
+colors = PackedColorArray(1, 0.462745, 0, 1, 1, 0.163503, 0, 1, 1, 0, 0, 1)
+
+[node name="boom" type="CPUParticles2D"]
+emitting = false
+amount = 1000
+lifetime = 0.7
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 20.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 500.0
+initial_velocity_max = 650.0
+scale_amount_curve = SubResource("Curve_sj6ms")
+color_ramp = SubResource("Gradient_vxrs2")

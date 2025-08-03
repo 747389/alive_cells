@@ -14,7 +14,6 @@ var potion_stage_info: Dictionary = {
 	"2" = "res://assests/potions (3 empty).png",
 	"1" = "res://assests/potions ( all empty).png"
 }
-var can_attack: bool = true
 var coins: int = 0
 var _health: int = 10
 var health_potions: int = 4
@@ -49,10 +48,10 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
-	if Input.is_action_just_pressed("shift") and can_attack:
+	if Input.is_action_just_pressed("Space"):
 		$Node2D/wepon/AnimationPlayer.play("player_attack")
-		can_attack = false
-		$attack.start()
+
+
 	
 	if Input.is_action_just_pressed("S") and is_on_floor():
 		position.y += 1
@@ -67,14 +66,15 @@ func _physics_process(delta: float) -> void:
 		$"Potions(full)".texture = load(potion_stage_info[str(potion_stage)])
 
 
-
-func _on_attack_timeout() -> void:
-	can_attack = true
-
-
 func hit():
 	health -= 1
 	print(health)
+	health_ui.value = health
+	if health <= 0:
+		get_tree().call_deferred("change_scene_to_file" , "res://scenes/main_menu.tscn")
+
+func  boom():
+	health -= 7
 	health_ui.value = health
 	if health <= 0:
 		get_tree().call_deferred("change_scene_to_file" , "res://scenes/main_menu.tscn")

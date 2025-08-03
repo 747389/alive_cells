@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://dai20nqp2khl8"]
+
+[ext_resource type="Script" uid="uid://dm21w55op0oe6" path="res://scripts/bulet.gd" id="1_axtm1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gssnd"]
+size = Vector2(51.5, 15.5)
+
+[node name="bulet" type="Area2D"]
+script = ExtResource("1_axtm1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_gssnd")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -26.0
+offset_top = -8.0
+offset_right = 26.0
+offset_bottom = 8.0
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.2
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

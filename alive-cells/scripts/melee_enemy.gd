@@ -5,7 +5,7 @@ const MAX_DISTANCE_X: int = 500
 const MAX_DISTANCE_Y: int = 100
 
 var player: Node
-var hp: int = 3
+var hp: int = 4
 
 
 func _ready() -> void:

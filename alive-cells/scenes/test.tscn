@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://2lfvua5kb45s"]
 
 [ext_resource type="PackedScene" uid="uid://bv4khfxhjtmgu" path="res://scenes/player.tscn" id="1_t61po"]
-[ext_resource type="PackedScene" uid="uid://3sb78h6j61td" path="res://scenes/melee_enemy.tscn" id="2_ebjfp"]
+[ext_resource type="PackedScene" uid="uid://d4gua0llnkv3c" path="res://scenes/kowalski.tscn" id="3_74lek"]
 [ext_resource type="Script" uid="uid://blt78g5p3qeso" path="res://scripts/2_way_platform.gd" id="3_em6t2"]
 [ext_resource type="PackedScene" uid="uid://cehomlaj540c" path="res://scenes/coin.tscn" id="4_ayfoq"]
 
@@ -13,11 +13,8 @@ size = Vector2(119, 20)
 
 [node name="test" type="Node2D"]
 
-[node name="melee_enemy" parent="." instance=ExtResource("2_ebjfp")]
-position = Vector2(911, 389)
-
 [node name="CharacterBody2D" parent="." instance=ExtResource("1_t61po")]
-position = Vector2(450, 393)
+position = Vector2(166, 482)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
@@ -44,8 +41,6 @@ offset_bottom = 346.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
 position = Vector2(230, 336)
-rotation = 3.14159
-scale = Vector2(1, -1)
 shape = SubResource("RectangleShape2D_8xfd1")
 one_way_collision = true
 
@@ -55,5 +50,35 @@ one_shot = true
 
 [node name="coin" parent="." instance=ExtResource("4_ayfoq")]
 position = Vector2(233, 386)
+
+[node name="Kowalski2" parent="." instance=ExtResource("3_74lek")]
+position = Vector2(935, 459)
+
+[node name="Kowalski" parent="." instance=ExtResource("3_74lek")]
+position = Vector2(868, 464)
+
+[node name="Kowalski3" parent="." instance=ExtResource("3_74lek")]
+position = Vector2(831, 465)
+
+[node name="Kowalski4" parent="." instance=ExtResource("3_74lek")]
+position = Vector2(904, 464)
+
+[node name="Kowalski5" parent="." instance=ExtResource("3_74lek")]
+position = Vector2(863, 462)
+
+[node name="Kowalski6" parent="." instance=ExtResource("3_74lek")]
+position = Vector2(899, 459)
+
+[node name="Kowalski7" parent="." instance=ExtResource("3_74lek")]
+position = Vector2(883, 461)
+
+[node name="Kowalski8" parent="." instance=ExtResource("3_74lek")]
+position = Vector2(870, 466)
+
+[node name="Kowalski9" parent="." instance=ExtResource("3_74lek")]
+position = Vector2(891, 459)
+
+[node name="Kowalski10" parent="." instance=ExtResource("3_74lek")]
+position = Vector2(848, 461)
 
 [connection signal="timeout" from="StaticBody2D2/Timer" to="StaticBody2D2" method="_on_timer_timeout"]
