@@ -17,3 +17,7 @@ func _on_timer_timeout() -> void:
 
 func hit():
 	pass
+
+
+func  boom():
+	pass

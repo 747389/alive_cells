@@ -1,18 +1,18 @@
 extends Area2D
 
 var player: Node
-var animation_player: Node
+var attack_animation_player: Node
 var can_attack: bool = false
 var in_range: bool = false
 
 
 func _ready() -> void:
-	animation_player = get_node("../../AnimationPlayer")
+	attack_animation_player = get_node("../../AnimationPlayer")
 
 
 func _process(_delta: float) -> void:
 	if in_range and can_attack:
-		animation_player.play("enemy_attack")
+		attack_animation_player.play("enemy_attack")
 		can_attack = false
 		$Timer.start()
 

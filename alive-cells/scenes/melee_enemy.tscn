@@ -1,7 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://3sb78h6j61td"]
+[gd_scene load_steps=15 format=3 uid="uid://3sb78h6j61td"]
 
 [ext_resource type="Script" uid="uid://d1blue1hkimgp" path="res://scripts/melee_enemy.gd" id="1_h20gk"]
 [ext_resource type="Script" uid="uid://dn7pxn8a4dga4" path="res://scripts/enemy_wepon.gd" id="2_6nj65"]
+[ext_resource type="Texture2D" uid="uid://sry61gernbbx" path="res://assests/walk.png" id="2_8age4"]
+[ext_resource type="Texture2D" uid="uid://db5h8pjnnwsx" path="res://assests/attack.png" id="2_fulih"]
 [ext_resource type="Script" uid="uid://dlkn6m4tswseu" path="res://scripts/detection.gd" id="2_nkcc5"]
 
 [sub_resource type="Animation" id="Animation_fnn23"]
@@ -21,26 +23,26 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("ColorRect:visible")
+tracks/1/path = NodePath("../Attack:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [0]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("ColorRect:rotation")
+tracks/2/path = NodePath("../Attack:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [3.14159]
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_3oc4t"]
@@ -61,26 +63,26 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("ColorRect:visible")
+tracks/1/path = NodePath("../Attack:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.33),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.0413, 0.0825, 0.1235, 0.1645, 0.2055, 0.2465, 0.2875, 0.3285),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [true, false]
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("ColorRect:rotation")
+tracks/2/path = NodePath("../Attack:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.33),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [-3.14159, -1.5708]
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h0g5l"]
@@ -91,16 +93,55 @@ _data = {
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dvjtm"]
 radius = 12.0
-height = 38.0
+height = 66.0
+
+[sub_resource type="Animation" id="Animation_fulih"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_8age4"]
+resource_name = "walk"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.083, 0.166, 0.249, 0.332, 0.415),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xcjf7"]
+_data = {
+&"RESET": SubResource("Animation_fulih"),
+&"walk": SubResource("Animation_8age4")
+}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ts5ib"]
 size = Vector2(17, 42.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dhfik"]
-size = Vector2(65, 66)
+size = Vector2(57.5, 66)
 
 [node name="melee_enemy" type="CharacterBody2D"]
 script = ExtResource("1_h20gk")
+metadata/enemy = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Node2D/enemy_wepon")
@@ -108,28 +149,35 @@ libraries = {
 &"": SubResource("AnimationLibrary_h0g5l")
 }
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -11.0
-offset_top = -18.0
-offset_right = 11.0
-offset_bottom = 18.0
-color = Color(1, 0, 0, 1)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_dvjtm")
 
 [node name="Node2D" type="Node2D" parent="."]
 
+[node name="Attack" type="Sprite2D" parent="Node2D"]
+visible = false
+texture_filter = 1
+position = Vector2(6, -2.5)
+scale = Vector2(2.3, 2.514)
+texture = ExtResource("2_fulih")
+hframes = 3
+vframes = 3
+
+[node name="sprite" type="Sprite2D" parent="Node2D"]
+texture_filter = 1
+position = Vector2(6, -2.5)
+scale = Vector2(2.3, 2.513)
+texture = ExtResource("2_8age4")
+hframes = 2
+vframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/sprite"]
+libraries = {
+&"": SubResource("AnimationLibrary_xcjf7")
+}
+
 [node name="enemy_wepon" type="Area2D" parent="Node2D"]
 script = ExtResource("2_6nj65")
-
-[node name="ColorRect" type="ColorRect" parent="Node2D/enemy_wepon"]
-visible = false
-offset_left = 11.0
-offset_top = 15.0
-offset_right = 14.0
-offset_bottom = 41.0
-rotation = 3.14159
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/enemy_wepon"]
 position = Vector2(20.5, -3.75)
@@ -140,12 +188,14 @@ disabled = true
 script = ExtResource("2_nkcc5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/detection"]
-position = Vector2(22.5, -4)
+position = Vector2(15.25, -2)
 shape = SubResource("RectangleShape2D_dhfik")
 
 [node name="Timer" type="Timer" parent="Node2D/detection"]
 
 [connection signal="body_entered" from="Node2D/enemy_wepon" to="Node2D/enemy_wepon" method="_on_body_entered"]
+[connection signal="body_entered" from="Node2D/detection" to="." method="_on_detection_body_entered"]
 [connection signal="body_entered" from="Node2D/detection" to="Node2D/detection" method="_on_body_entered"]
+[connection signal="body_exited" from="Node2D/detection" to="." method="_on_detection_body_exited"]
 [connection signal="body_exited" from="Node2D/detection" to="Node2D/detection" method="_on_body_exited"]
 [connection signal="timeout" from="Node2D/detection/Timer" to="Node2D/detection" method="_on_timer_timeout"]

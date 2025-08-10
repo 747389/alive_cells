@@ -55,5 +55,11 @@ func hit():
 		queue_free()
 
 
+func boom():
+	hp -= 7
+	if hp <= 0:
+		queue_free()
+
+
 func _on_shoot_timer_timeout() -> void:
 	can_shoot = true

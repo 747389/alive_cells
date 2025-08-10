@@ -28,11 +28,9 @@ var health: int:
 
 
 func _physics_process(delta: float) -> void:
-	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	# Handle jump.
 	if Input.is_action_just_pressed("W") and is_on_floor() or Input.is_action_just_pressed("W") and double_jump > 0:
 		velocity.y = JUMP_VELOCITY
 		double_jump -= 1
@@ -40,7 +38,6 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		double_jump = 1
 
-	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_axis("A", "D")
 	if direction:
 		velocity.x = direction * SPEED
@@ -50,8 +47,6 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("Space"):
 		$Node2D/wepon/AnimationPlayer.play("player_attack")
-
-
 	
 	if Input.is_action_just_pressed("S") and is_on_floor():
 		position.y += 1
@@ -72,6 +67,7 @@ func hit():
 	health_ui.value = health
 	if health <= 0:
 		get_tree().call_deferred("change_scene_to_file" , "res://scenes/main_menu.tscn")
+
 
 func  boom():
 	health -= 7
