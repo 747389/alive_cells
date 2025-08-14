@@ -9,8 +9,7 @@ func _physics_process(delta: float) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.has_meta("player"):
-		body.hit()
-		body.hit()
+		body.hit(2)
 		queue_free()
 
 

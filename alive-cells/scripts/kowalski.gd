@@ -39,12 +39,12 @@ func _process(delta: float) -> void:
 
 func _on_boom_body_entered(body: Node2D) -> void:
 	if body.has_meta("player") or body.has_meta("enemy"):
-		body.boom()
+		body.hit(7)
 
 
 
-func hit():
-	hp -= 1
+func hit(damage):
+	hp -= damage
 	if hp <= 0:
 		queue_free()
 
@@ -62,9 +62,6 @@ func _on_triger_body_entered(body: Node2D) -> void:
 		can_boom = false
 
 
-
-func boom():
-	hp -= 7
-	if hp <= 0:
-		await get_tree().create_timer(0.7).timeout
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "boom":
 		queue_free()

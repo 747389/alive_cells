@@ -3,9 +3,15 @@ extends CharacterBody2D
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -350.0
+const MAX_CHARGE: float = 1.0
+
 
 @export var coins_ui: Node
 @export var health_ui: Node
+@export var wepon_animation: Node
+var charge_attack: bool = false
+var charge: float = 0
+var attack: bool = false
 var potion_stage: int = 5
 var potion_stage_info: Dictionary = {
 	"5" = "res://assests/potions (full).png",
@@ -46,14 +52,34 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	if Input.is_action_just_pressed("Space"):
-		$Node2D/wepon/AnimationPlayer.play("player_attack")
+		attack = true
+		charge_attack = false
+
+	if attack:
+		await get_tree().create_timer(0.1).timeout
+		if not Input.is_action_pressed("Space") and charge < MAX_CHARGE and attack:
+			wepon_animation.play("player_attack")
+			attack = false
+		else:
+			if charge <= 0.1 and attack:
+				wepon_animation.play("charge")
+			charge += delta
+		if Input.is_action_just_released("Space"):
+			if charge >= MAX_CHARGE:
+				attack = false
+				wepon_animation.play("charge_attack")
+				charge_attack = true
+			else:
+				attack = false
+			charge = 0
+			
 	
 	if Input.is_action_just_pressed("S") and is_on_floor():
 		position.y += 1
-	
+
 	move_and_slide()
 
-	if Input.is_action_just_pressed("Q") and health_potions >= 1 and health < 10:
+	if Input.is_action_just_pressed("Q") and health_potions >= 1 and health < max_health:
 		health_potions -= 1
 		health += health_gained
 		health_ui.value = health
@@ -61,16 +87,8 @@ func _physics_process(delta: float) -> void:
 		$"Potions(full)".texture = load(potion_stage_info[str(potion_stage)])
 
 
-func hit():
-	health -= 1
-	print(health)
-	health_ui.value = health
-	if health <= 0:
-		get_tree().call_deferred("change_scene_to_file" , "res://scenes/main_menu.tscn")
-
-
-func  boom():
-	health -= 7
+func hit(damage):
+	health -= damage
 	health_ui.value = health
 	if health <= 0:
 		get_tree().call_deferred("change_scene_to_file" , "res://scenes/main_menu.tscn")

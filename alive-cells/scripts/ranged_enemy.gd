@@ -49,14 +49,8 @@ func _process(delta: float) -> void:
 		move_and_slide()
 
 
-func hit():
-	hp -= 1
-	if hp <= 0:
-		queue_free()
-
-
-func boom():
-	hp -= 7
+func hit(damage):
+	hp -= damage
 	if hp <= 0:
 		queue_free()
 

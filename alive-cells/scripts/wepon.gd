@@ -1,8 +1,11 @@
 extends Area2D
 
-var player: Node
+@export var player: Node
 
 
 func _on_body_entered(body: Node2D) -> void:
 	if not body == player:
-		body.hit()
+		if player.charge_attack:
+			body.hit(2)
+		else:
+			body.hit(1)
