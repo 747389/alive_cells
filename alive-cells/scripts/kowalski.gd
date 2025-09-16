@@ -5,18 +5,24 @@ const SPEED: float = 100.0
 const MAX_DISTANCE_X: int = 500
 const MAX_DISTANCE_Y: int = 100
 const LOW_DISTANCE_X: int = 300
+const EXPLOSION_DAMAGE: int = 7
 
 var can_boom: bool = true
+var hp: int = 3
 var player: Node
-var hp: int = 2
+var taking_knockback: bool = false
 @export var boom_scene: PackedScene
 
+
+
+# stops animation and finds the player
 func _ready() -> void:
 	$AnimationPlayer.play("RESET")
 	for players in get_tree().get_nodes_in_group("player"):
 		player = players
 
 
+# handle mooving torwasds the player when in agrow range 
 func _process(delta: float) -> void:
 	if player:
 		velocity += get_gravity() * delta
@@ -39,14 +45,20 @@ func _process(delta: float) -> void:
 
 func _on_boom_body_entered(body: Node2D) -> void:
 	if body.has_meta("player") or body.has_meta("enemy"):
-		body.hit(7)
+		body.hit(EXPLOSION_DAMAGE)
 
 
 
-func hit(damage):
+func hit(damage, direction, knockback):
 	hp -= damage
 	if hp <= 0:
 		queue_free()
+	if knockback > 0:
+		taking_knockback = true
+		velocity.x = knockback * direction
+		await get_tree().create_timer(0.3).timeout
+		taking_knockback = false
+
 
 
 func _on_triger_body_entered(body: Node2D) -> void:

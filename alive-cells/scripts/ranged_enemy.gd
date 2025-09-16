@@ -2,7 +2,6 @@ extends CharacterBody2D
 
 const SPEED: float = 100.0
 const MAX_DISTANCE_X: int = 500
-const MIN_DISTANCE_X: int = 200
 const MAX_DISTANCE_Y: int = 100
 const AIM_RIGHT: float = 0
 const AIM_LEFT: float = deg_to_rad(180)
@@ -49,7 +48,7 @@ func _process(delta: float) -> void:
 		move_and_slide()
 
 
-func hit(damage):
+func hit(damage, not_important, not_important2):
 	hp -= damage
 	if hp <= 0:
 		queue_free()

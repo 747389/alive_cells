@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://2lfvua5kb45s"]
+[gd_scene load_steps=7 format=3 uid="uid://2lfvua5kb45s"]
 
 [ext_resource type="PackedScene" uid="uid://bv4khfxhjtmgu" path="res://scenes/player.tscn" id="1_t61po"]
 [ext_resource type="Script" uid="uid://dqudfo7yfgq3i" path="res://scripts/platform.gd" id="2_j5jx5"]
-[ext_resource type="Script" uid="uid://blt78g5p3qeso" path="res://scripts/2_way_platform.gd" id="3_em6t2"]
 [ext_resource type="PackedScene" uid="uid://cehomlaj540c" path="res://scenes/coin.tscn" id="4_ayfoq"]
-[ext_resource type="PackedScene" uid="uid://d4gua0llnkv3c" path="res://scenes/kowalski.tscn" id="5_j5jx5"]
+[ext_resource type="PackedScene" uid="uid://3sb78h6j61td" path="res://scenes/melee_enemy.tscn" id="5_j5jx5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lu40f"]
 size = Vector2(903.5, 32)
@@ -32,7 +31,6 @@ shape = SubResource("RectangleShape2D_lu40f")
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="."]
 position = Vector2(12, 80)
-script = ExtResource("3_em6t2")
 metadata/platform = true
 
 [node name="ColorRect" type="ColorRect" parent="StaticBody2D2"]
@@ -53,7 +51,7 @@ one_shot = true
 [node name="coin" parent="." instance=ExtResource("4_ayfoq")]
 position = Vector2(233, 386)
 
-[node name="Kowalski" parent="." instance=ExtResource("5_j5jx5")]
-position = Vector2(928, 476)
+[node name="melee_enemy" parent="." instance=ExtResource("5_j5jx5")]
+position = Vector2(907, 470)
 
 [connection signal="timeout" from="StaticBody2D2/Timer" to="StaticBody2D2" method="_on_timer_timeout"]

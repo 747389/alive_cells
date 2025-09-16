@@ -8,7 +8,7 @@ radius = 14.0
 height = 38.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rh0vu"]
-size = Vector2(178, 130)
+size = Vector2(204, 130)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tyswc"]
 size = Vector2(462, 319)
