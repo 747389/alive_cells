@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dqudfo7yfgq3i" path="res://scripts/platform.gd" id="2_j5jx5"]
 [ext_resource type="PackedScene" uid="uid://c5iknj2wbqb8m" path="res://scenes/potion_refill.tscn" id="4_74lek"]
 [ext_resource type="PackedScene" uid="uid://cehomlaj540c" path="res://scenes/coin.tscn" id="4_ayfoq"]
-[ext_resource type="PackedScene" uid="uid://d4gua0llnkv3c" path="res://scenes/kowalski.tscn" id="5_j5jx5"]
+[ext_resource type="PackedScene" uid="uid://d4gua0llnkv3c" path="res://scenes/boom_enemy.tscn" id="5_j5jx5"]
 [ext_resource type="PackedScene" uid="uid://3sb78h6j61td" path="res://scenes/melee_enemy.tscn" id="6_lpvoh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lu40f"]

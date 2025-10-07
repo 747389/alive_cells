@@ -15,19 +15,21 @@ var taking_knockback: bool = false
 @export var boom_scene: PackedScene
 
 
-# stops animation and finds the player
+# Stops animation and finds the player
 func _ready() -> void:
 	$AnimationPlayer.play("RESET")
 	for players in get_tree().get_nodes_in_group("player"):
 		player = players
 
 
-# handle mooving torwasds the player when in agrow range 
 func _process(delta: float) -> void:
+	# Gets the playes postion
 	if player:
 		velocity += get_gravity() * delta
 		var distance_x = abs(player.position.x - position.x)
 		var distance_y = abs(player.position.y - position.y)
+
+		# Handes moving towords the player when in range
 		if (
 			distance_x <= MAX_DISTANCE_X and distance_y <= MAX_DISTANCE_Y 
 			and distance_x >= LOW_DISTANCE_X
@@ -46,12 +48,13 @@ func _process(delta: float) -> void:
 		move_and_slide()
 
 
+# Handle damging the player and other enemys
 func _on_boom_body_entered(body: Node2D) -> void:
 	if body.has_meta("player") or body.has_meta("enemy"):
 		body.hit(EXPLOSION_DAMAGE)
 
 
-
+# Handle taking damage and knockback form the player
 func hit(damage, direction, knockback):
 	hp -= damage
 	if hp <= 0:
@@ -63,7 +66,7 @@ func hit(damage, direction, knockback):
 		taking_knockback = false
 
 
-
+# Handel exsploding
 func _on_triger_body_entered(body: Node2D) -> void:
 	if body.has_meta("player") and can_boom:
 		await get_tree().create_timer(0.4).timeout
@@ -77,6 +80,7 @@ func _on_triger_body_entered(body: Node2D) -> void:
 		can_boom = false
 
 
+# Makes it die after exsploding
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "boom":
 		queue_free()

@@ -8,7 +8,7 @@ var attack_knockback: int = 0
 var charge_attack_knockback: int = 500
 
 
-# handle attaking an enemy
+# Handle attaking an enemy
 func _on_body_entered(body: Node2D) -> void:
 	if not body == player:
 		if player.charge_attack:

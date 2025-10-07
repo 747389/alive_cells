@@ -15,16 +15,20 @@ var flip_direction_right: bool
 @export var bullet_scene: PackedScene
 
 
+# Finding the player 
 func _ready() -> void:
 	for players in get_tree().get_nodes_in_group("player"):
 		player = players
 
 
 func _process(delta: float) -> void:
+	# Gets the players pisition
 	if player:
 		velocity += get_gravity() * delta
 		var distance_x = abs(player.position.x - position.x)
 		var distance_y = abs(player.position.y - position.y)
+
+		# Handel sooting when the player is in range
 		if distance_x <= MAX_DISTANCE_X and distance_y <= MAX_DISTANCE_Y:
 			if can_shoot:
 				var bullet = bullet_scene.instantiate()
@@ -45,14 +49,14 @@ func _process(delta: float) -> void:
 			else:
 				$gun.scale.x = -1
 				flip_direction_right = false
-		move_and_slide()
 
 
-func hit(damage, not_important, not_important2):
+# Handle taking damage from the player 
+func hit(damage, _direction, _knockback):
 	hp -= damage
 	if hp <= 0:
 		queue_free()
 
-
+# Shoot timer
 func _on_shoot_timer_timeout() -> void:
 	can_shoot = true

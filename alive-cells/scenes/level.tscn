@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bv4khfxhjtmgu" path="res://scenes/player.tscn" id="1_iddt7"]
 [ext_resource type="PackedScene" uid="uid://3sb78h6j61td" path="res://scenes/melee_enemy.tscn" id="2_hasie"]
-[ext_resource type="PackedScene" uid="uid://d4gua0llnkv3c" path="res://scenes/kowalski.tscn" id="4_ppgk2"]
+[ext_resource type="PackedScene" uid="uid://d4gua0llnkv3c" path="res://scenes/boom_enemy.tscn" id="4_ppgk2"]
 [ext_resource type="PackedScene" uid="uid://08q0nwkjk6m3" path="res://scenes/ranged_enemy.tscn" id="5_2r41h"]
 [ext_resource type="Texture2D" uid="uid://csv1n6owqssy" path="res://assests/brick_tiles_64.png" id="6_2r41h"]
 

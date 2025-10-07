@@ -36,19 +36,19 @@ var health: int:
 
 
 func _physics_process(delta: float) -> void:
+	# Gravty
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	# handle jump
+	# Handle jump and double jump
 	if (Input.is_action_just_pressed("W") and is_on_floor() or Input.is_action_just_pressed("W") 
 		and double_jump > 0):
 			velocity.y = JUMP_VELOCITY
 			double_jump -= 1
-
 	if is_on_floor():
 		double_jump = 1
 
-	# handle mooving
+	# Handle mooving
 	var direction := Input.get_axis("A", "D")
 	if direction:
 		velocity.x = direction * SPEED
@@ -56,12 +56,12 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
-	# reset attack variables when starting to attack
+	# Reset attack variables when starting to attack
 	if Input.is_action_just_pressed("Space"):
 		attack = true
 		charge_attack = false
 
-	# handels chrging an attack and what attack the player is doing
+	# Handels chrging an attack and what attack the player is doing
 	if attack:
 		if Input.is_action_just_released("Space") and charge < MAX_CHARGE and attack:
 			if not wepon_animation.current_animation == "player_attack":
@@ -83,13 +83,13 @@ func _physics_process(delta: float) -> void:
 				attack = false
 			charge = 0
 
-	# mooves the player down 1 px to go thurogh 2 way platforms
+	# Mooves the player down 1 px to go thurogh 2 way platforms
 	if Input.is_action_just_pressed("S") and is_on_floor():
 		position.y += 1
 
 	move_and_slide()
 
-	# handle healing
+	# Handle healing
 	if Input.is_action_just_pressed("Q") and health_potions >= 1 and health < max_health:
 		health_potions -= 1
 		health += health_gained
@@ -98,7 +98,7 @@ func _physics_process(delta: float) -> void:
 		$"Potions(full)".texture = load(potion_stage_info[str(potion_stage)])
 
 
-# handle taking damage
+# Handle taking damage
 func hit(damage):
 	health -= damage
 	health_ui.value = health
@@ -106,13 +106,15 @@ func hit(damage):
 		get_tree().call_deferred("change_scene_to_file" , "res://scenes/main_menu.tscn")
 
 
-# handle colting coins and reilling potions
+
 func _on_area_entered(area: Area2D) -> void:
+	# Handle colting coins
 	if area.has_meta("coin"):
 		coins += 1
 		area.queue_free()
 		coins_ui.text = str(coins) + " x"
-		
+
+	# Handle refilling potions
 	if area.has_meta("refill"):
 		for stage in potion_stage_info:
 			if int(stage) < potion_stage:

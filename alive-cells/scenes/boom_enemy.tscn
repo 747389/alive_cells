@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://d4gua0llnkv3c"]
 
-[ext_resource type="Script" uid="uid://c83miukkkalyf" path="res://scripts/kowalski.gd" id="1_rh0vu"]
+[ext_resource type="Script" uid="uid://c83miukkkalyf" path="res://scripts/boom_enemy.gd" id="1_rh0vu"]
 [ext_resource type="PackedScene" uid="uid://r2jo50appp7o" path="res://scenes/boom.tscn" id="2_tyswc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dqiii"]
