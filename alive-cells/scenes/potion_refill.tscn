@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5iknj2wbqb8m"]
+
+[ext_resource type="Texture2D" uid="uid://u73pksoc3p3d" path="res://assests/potions (full).png" id="1_l4p2m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_se1v4"]
+size = Vector2(32, 38)
+
+[node name="potion_refill" type="Area2D"]
+metadata/refill = true
+
+[node name="Potions(full)" type="Sprite2D" parent="."]
+position = Vector2(0, -3)
+texture = ExtResource("1_l4p2m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_se1v4")

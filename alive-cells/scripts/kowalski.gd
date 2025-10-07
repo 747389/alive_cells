@@ -11,8 +11,8 @@ var can_boom: bool = true
 var hp: int = 3
 var player: Node
 var taking_knockback: bool = false
-@export var boom_scene: PackedScene
 
+@export var boom_scene: PackedScene
 
 
 # stops animation and finds the player
@@ -28,7 +28,10 @@ func _process(delta: float) -> void:
 		velocity += get_gravity() * delta
 		var distance_x = abs(player.position.x - position.x)
 		var distance_y = abs(player.position.y - position.y)
-		if distance_x <= MAX_DISTANCE_X and distance_y <= MAX_DISTANCE_Y and distance_x >= LOW_DISTANCE_X:
+		if (
+			distance_x <= MAX_DISTANCE_X and distance_y <= MAX_DISTANCE_Y 
+			and distance_x >= LOW_DISTANCE_X
+		):
 			if player.global_position.x > self.global_position.x:
 				velocity.x += SPEED * delta
 			else:

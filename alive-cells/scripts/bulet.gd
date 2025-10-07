@@ -1,6 +1,7 @@
 extends Area2D
 
 const SPEED: float = 20.0
+
 var damige: int = 2
 
 

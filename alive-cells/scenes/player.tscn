@@ -229,5 +229,5 @@ position = Vector2(-435, 284)
 scale = Vector2(0.8, 0.758621)
 texture = ExtResource("4_ixtu6")
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_coin_entered"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_entered"]
 [connection signal="body_entered" from="Node2D/wepon" to="Node2D/wepon" method="_on_body_entered"]
