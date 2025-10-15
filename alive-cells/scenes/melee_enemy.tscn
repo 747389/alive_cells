@@ -134,14 +134,15 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ts5ib"]
-size = Vector2(17, 42.5)
+size = Vector2(32, 55.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dhfik"]
 size = Vector2(57.5, 66)
 
-[node name="melee_enemy" type="CharacterBody2D" node_paths=PackedStringArray("walking_animation")]
+[node name="melee_enemy" type="CharacterBody2D" node_paths=PackedStringArray("walking_animation", "node2d")]
 script = ExtResource("1_h20gk")
 walking_animation = NodePath("Node2D/sprite/AnimationPlayer")
+node2d = NodePath("Node2D")
 metadata/enemy = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -181,13 +182,14 @@ libraries = {
 script = ExtResource("2_6nj65")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/enemy_wepon"]
-position = Vector2(20.5, -3.75)
+position = Vector2(13, -10.25)
 shape = SubResource("RectangleShape2D_ts5ib")
 disabled = true
 
-[node name="detection" type="Area2D" parent="Node2D" node_paths=PackedStringArray("attack_animation_player")]
+[node name="detection" type="Area2D" parent="Node2D" node_paths=PackedStringArray("attack_animationplayer", "attack_timer")]
 script = ExtResource("2_nkcc5")
-attack_animation_player = NodePath("../../AnimationPlayer")
+attack_animationplayer = NodePath("../../AnimationPlayer")
+attack_timer = NodePath("Timer")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/detection"]
 position = Vector2(15.25, -2)

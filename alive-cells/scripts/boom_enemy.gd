@@ -15,11 +15,13 @@ var player: Node
 var taking_knockback: bool = false
 
 @export var boom_scene: PackedScene
+@export var boom_animationplayer: Node
+@export var color_rect: Node
 
 
 # Stops animation and finds the player
 func _ready() -> void:
-	$AnimationPlayer.play("RESET")
+	boom_animationplayer.play("RESET")
 	for players in get_tree().get_nodes_in_group("player"):
 		player = players
 
@@ -74,8 +76,8 @@ func hit(damage, direction, knockback):
 func _on_triger_body_entered(body: Node2D) -> void:
 	if body.has_meta("player") and can_boom:
 		await get_tree().create_timer(BOOM_TIMER).timeout
-		$AnimationPlayer.play("boom")
-		$ColorRect.visible = false
+		boom_animationplayer.play("boom")
+		color_rect.visible = false
 		velocity.x = 0
 		var boom = boom_scene.instantiate()
 		boom.position = self.global_position
@@ -86,6 +88,6 @@ func _on_triger_body_entered(body: Node2D) -> void:
 
 # Makes it die after exsploding
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	var boom_anim: String = "boom"
-	if anim_name == boom_anim:
+	var boom_animation: String = "boom"
+	if anim_name == boom_animation:
 		queue_free()

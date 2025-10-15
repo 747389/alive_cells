@@ -1,11 +1,12 @@
 extends Area2D
 
-@export var player: Node
-@export var Node2d: Node
 var attack_damage: int = 1
 var charge_attack_damage: int = 2
 var attack_knockback: int = 0
 var charge_attack_knockback: int = 500
+
+@export var player: Node
+@export var Node2d: Node
 
 
 # Handle attaking an enemy

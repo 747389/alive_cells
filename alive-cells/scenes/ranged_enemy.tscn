@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://08q0nwkjk6m3"]
+[gd_scene load_steps=5 format=3 uid="uid://08q0nwkjk6m3"]
 
 [ext_resource type="Script" uid="uid://do347a67ka31x" path="res://scripts/ranged_enemy.gd" id="1_u2kgh"]
 [ext_resource type="PackedScene" uid="uid://dai20nqp2khl8" path="res://scenes/bulet.tscn" id="2_rs3ab"]
@@ -7,9 +7,15 @@
 radius = 22.0
 height = 66.0
 
-[node name="ranged_enemy" type="CharacterBody2D"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_32iyl"]
+radius = 24.0
+height = 68.0
+
+[node name="ranged_enemy" type="CharacterBody2D" node_paths=PackedStringArray("gun", "shoot_timer")]
 script = ExtResource("1_u2kgh")
 bullet_scene = ExtResource("2_rs3ab")
+gun = NodePath("gun")
+shoot_timer = NodePath("shoot_timer")
 metadata/emeny = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -38,4 +44,11 @@ offset_bottom = 22.0
 [node name="shoot_timer" type="Timer" parent="."]
 wait_time = 2.0
 
+[node name="damage_area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="damage_area"]
+shape = SubResource("CapsuleShape2D_32iyl")
+
 [connection signal="timeout" from="shoot_timer" to="." method="_on_shoot_timer_timeout"]
+[connection signal="body_entered" from="damage_area" to="." method="_on_damage_area_body_entered"]
+[connection signal="body_exited" from="damage_area" to="." method="_on_damage_area_body_exited"]

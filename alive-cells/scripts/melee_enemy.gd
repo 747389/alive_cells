@@ -6,10 +6,12 @@ const MAX_DISTANCE_Y: int = 100
 const KNOCKBACK_TIMER: float = 0.3
 
 var player: Node
-var hp: int = 4
+var hp: int = 6
 var in_range: bool = false
 var taking_knockback: bool = false
+
 @export var walking_animation: Node
+@export var node2d: Node2D
 
 
 # Finding the player
@@ -32,11 +34,11 @@ func _process(delta: float) -> void:
 			else:
 				walking_animation.play("RESET")
 			if player.global_position.x > self.global_position.x and not taking_knockback:
-				$Node2D.scale.x = 1
+				node2d.scale.x = 1
 				velocity.x = SPEED
 			elif not taking_knockback:
 				velocity.x = -SPEED
-				$Node2D.scale.x = -1
+				node2d.scale.x = -1
 		else:
 			walking_animation.play("RESET")
 			velocity.x = 0

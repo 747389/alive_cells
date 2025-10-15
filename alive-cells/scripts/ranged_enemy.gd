@@ -5,13 +5,18 @@ const MAX_DISTANCE_X: int = 500
 const MAX_DISTANCE_Y: int = 100
 const AIM_RIGHT: float = 0
 const AIM_LEFT: float = deg_to_rad(180)
+const COLLISION_DAMAGE: int = 1
+const COLLISION_DAMAGE_TIMER: float = 0.5
 
 var player: Node
 var hp: int = 3
 var can_shoot: bool = true
 var flip_direction_right: bool
+var being_stood_on: bool = false
 
 @export var bullet_scene: PackedScene
+@export var gun: Node
+@export var shoot_timer: Node
 
 
 # Finding the player 
@@ -31,22 +36,22 @@ func _process(delta: float) -> void:
 		if distance_x <= MAX_DISTANCE_X and distance_y <= MAX_DISTANCE_Y:
 			if can_shoot:
 				var bullet = bullet_scene.instantiate()
-				$gun.add_sibling(bullet)
-				bullet.global_position = $gun.global_position
+				gun.add_sibling(bullet)
+				bullet.global_position = gun.global_position
 				
 				if flip_direction_right:
 					bullet.rotation = AIM_RIGHT
 				else:
 					bullet.rotation = AIM_LEFT
 				
-				$shoot_timer.start()
+				shoot_timer.start()
 				can_shoot = false
 				
 			if player.global_position.x > self.global_position.x:
-				$gun.scale.x = 1
+				gun.scale.x = 1
 				flip_direction_right = true
 			else:
-				$gun.scale.x = -1
+				gun.scale.x = -1
 				flip_direction_right = false
 
 
@@ -60,3 +65,16 @@ func hit(damage, _direction, _knockback):
 # Shoot timer
 func _on_shoot_timer_timeout() -> void:
 	can_shoot = true
+
+
+# Damage the player if standing on them
+func _on_damage_area_body_entered(body: Node2D) -> void:
+	being_stood_on = true
+	while body.has_meta("player") and being_stood_on:
+		body.hit(COLLISION_DAMAGE)
+		await get_tree().create_timer(COLLISION_DAMAGE_TIMER).timeout
+
+
+# Stop damageing the player if not standing on them
+func _on_damage_area_body_exited(body: Node2D) -> void:
+	being_stood_on = false

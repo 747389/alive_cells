@@ -1,11 +1,15 @@
 extends CharacterBody2D
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -350.0
+const SPEED: int = 300
+const JUMP_VELOCITY: int = -350
 const MAX_CHARGE: float = 1.0
 const NO_CHARGE: float = 0.1
 const POTION_REFILL_DELAY: float = 0.4
+const PLAYER_ATTACK_ANIMATION: String = "player_attack"
+const DASH_SPEED: int = 800
+const DASH_TIMER: float = 0.3
 
+var is_dashing: bool = false
 var charge_attack: bool = false
 var charge: float = 0
 var attack: bool = false
@@ -34,6 +38,8 @@ var health: int:
 @export var coins_ui: Node
 @export var health_ui: Node
 @export var wepon_animation: Node
+@export var node2d: Node2D 
+@export var potion_texshre: Node
 
 
 func _physics_process(delta: float) -> void:
@@ -53,10 +59,10 @@ func _physics_process(delta: float) -> void:
 
 	# Handle mooving
 	var direction := Input.get_axis("A", "D")
-	if direction:
+	if direction and not is_dashing:
 		velocity.x = direction * SPEED
-		$Node2D.scale.x = direction
-	else:
+		node2d.scale.x = direction
+	elif not is_dashing:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	# Reset attack variables when starting to attack
@@ -67,13 +73,13 @@ func _physics_process(delta: float) -> void:
 	# Handels chrging an attack and what attack the player is doing
 	if attack:
 		if Input.is_action_just_released("Space") and charge < MAX_CHARGE and attack:
-			if not wepon_animation.current_animation == "player_attack":
+			if not wepon_animation.current_animation == PLAYER_ATTACK_ANIMATION:
 				wepon_animation.play("player_attack")
 			attack = false
 		elif Input.is_action_pressed("Space"):
 			if (
 					charge <= NO_CHARGE and attack 
-					and not wepon_animation.current_animation == "player_attack"
+					and not wepon_animation.current_animation == PLAYER_ATTACK_ANIMATION
 			):
 				wepon_animation.play("charge")
 			charge += delta
@@ -90,6 +96,13 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("S") and is_on_floor():
 		position.y += 1
 
+	# Handle dash
+	if Input.is_action_just_pressed("shift"):
+		is_dashing = true
+		velocity.x = DASH_SPEED * direction
+		await get_tree().create_timer(DASH_TIMER).timeout
+		is_dashing = false
+
 	move_and_slide()
 
 	# Handle healing
@@ -98,7 +111,7 @@ func _physics_process(delta: float) -> void:
 		health += health_gained
 		health_ui.value = health
 		potion_stage -= 1
-		$"Potions(full)".texture = load(potion_stage_info[str(potion_stage)])
+		potion_texshre.texture = load(potion_stage_info[str(potion_stage)])
 
 
 # Handle taking damage
@@ -121,7 +134,7 @@ func _on_area_entered(area: Area2D) -> void:
 		for stage in potion_stage_info:
 			if int(stage) < potion_stage:
 				continue
-			$"Potions(full)".texture = load(potion_stage_info[str(stage)])
+			potion_texshre.texture = load(potion_stage_info[str(stage)])
 			await get_tree().create_timer(POTION_REFILL_DELAY).timeout
 		potion_stage = max_potion_stage
 		health_potions = max_health_potions

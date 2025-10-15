@@ -126,12 +126,14 @@ bg_color = Color(1, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6tpwd"]
 bg_color = Color(0, 1, 0, 1)
 
-[node name="CharacterBody2D" type="CharacterBody2D" node_paths=PackedStringArray("coins_ui", "health_ui", "wepon_animation") groups=["player"]]
+[node name="CharacterBody2D" type="CharacterBody2D" node_paths=PackedStringArray("coins_ui", "health_ui", "wepon_animation", "node2d", "potion_texshre") groups=["player"]]
 top_level = true
 script = ExtResource("1_ae7nu")
 coins_ui = NodePath("Label")
 health_ui = NodePath("ProgressBar")
 wepon_animation = NodePath("Node2D/wepon/AnimationPlayer")
+node2d = NodePath("Node2D")
+potion_texshre = NodePath("Potions(full)")
 metadata/player = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
