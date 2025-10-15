@@ -3,6 +3,7 @@ extends CharacterBody2D
 const SPEED: float = 100.0
 const MAX_DISTANCE_X: int = 500
 const MAX_DISTANCE_Y: int = 100
+const KNOCKBACK_TIMER: float = 0.3
 
 var player: Node
 var hp: int = 4
@@ -50,7 +51,7 @@ func hit(damage, direction, knockback):
 	if knockback > 0:
 		taking_knockback = true
 		velocity.x = knockback * direction
-		await get_tree().create_timer(0.3).timeout
+		await get_tree().create_timer(KNOCKBACK_TIMER).timeout
 		taking_knockback = false
 
 

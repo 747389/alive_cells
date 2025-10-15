@@ -6,6 +6,8 @@ const MAX_DISTANCE_X: int = 500
 const MAX_DISTANCE_Y: int = 100
 const LOW_DISTANCE_X: int = 300
 const EXPLOSION_DAMAGE: int = 7
+const KNOCKBACK_TIMER: float = 0.3
+const BOOM_TIMER: float = 0.4
 
 var can_boom: bool = true
 var hp: int = 3
@@ -50,8 +52,10 @@ func _process(delta: float) -> void:
 
 # Handle damging the player and other enemys
 func _on_boom_body_entered(body: Node2D) -> void:
-	if body.has_meta("player") or body.has_meta("enemy"):
+	if body.has_meta("player"):
 		body.hit(EXPLOSION_DAMAGE)
+	if body.has_meta("enemy"):
+		body.hit(EXPLOSION_DAMAGE,0 ,0)
 
 
 # Handle taking damage and knockback form the player
@@ -62,14 +66,14 @@ func hit(damage, direction, knockback):
 	if knockback > 0:
 		taking_knockback = true
 		velocity.x = knockback * direction
-		await get_tree().create_timer(0.3).timeout
+		await get_tree().create_timer(KNOCKBACK_TIMER).timeout
 		taking_knockback = false
 
 
 # Handel exsploding
 func _on_triger_body_entered(body: Node2D) -> void:
 	if body.has_meta("player") and can_boom:
-		await get_tree().create_timer(0.4).timeout
+		await get_tree().create_timer(BOOM_TIMER).timeout
 		$AnimationPlayer.play("boom")
 		$ColorRect.visible = false
 		velocity.x = 0
@@ -82,5 +86,6 @@ func _on_triger_body_entered(body: Node2D) -> void:
 
 # Makes it die after exsploding
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	if anim_name == "boom":
+	var boom_anim: String = "boom"
+	if anim_name == boom_anim:
 		queue_free()

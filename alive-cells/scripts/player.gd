@@ -4,6 +4,7 @@ const SPEED = 300.0
 const JUMP_VELOCITY = -350.0
 const MAX_CHARGE: float = 1.0
 const NO_CHARGE: float = 0.1
+const POTION_REFILL_DELAY: float = 0.4
 
 var charge_attack: bool = false
 var charge: float = 0
@@ -41,8 +42,10 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 
 	# Handle jump and double jump
-	if (Input.is_action_just_pressed("W") and is_on_floor() or Input.is_action_just_pressed("W") 
-		and double_jump > 0):
+	if (
+		Input.is_action_just_pressed("W") and is_on_floor() 
+		or Input.is_action_just_pressed("W") and double_jump > 0
+	):
 			velocity.y = JUMP_VELOCITY
 			double_jump -= 1
 	if is_on_floor():
@@ -106,13 +109,12 @@ func hit(damage):
 		get_tree().call_deferred("change_scene_to_file" , "res://scenes/main_menu.tscn")
 
 
-
 func _on_area_entered(area: Area2D) -> void:
 	# Handle colting coins
 	if area.has_meta("coin"):
 		coins += 1
 		area.queue_free()
-		coins_ui.text = str(coins) + " x"
+		coins_ui.text = str(coins)
 
 	# Handle refilling potions
 	if area.has_meta("refill"):
@@ -120,6 +122,6 @@ func _on_area_entered(area: Area2D) -> void:
 			if int(stage) < potion_stage:
 				continue
 			$"Potions(full)".texture = load(potion_stage_info[str(stage)])
-			await get_tree().create_timer(0.4).timeout
+			await get_tree().create_timer(POTION_REFILL_DELAY).timeout
 		potion_stage = max_potion_stage
 		health_potions = max_health_potions

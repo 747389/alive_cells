@@ -6,7 +6,6 @@ const MAX_DISTANCE_Y: int = 100
 const AIM_RIGHT: float = 0
 const AIM_LEFT: float = deg_to_rad(180)
 
-
 var player: Node
 var hp: int = 3
 var can_shoot: bool = true
@@ -56,6 +55,7 @@ func hit(damage, _direction, _knockback):
 	hp -= damage
 	if hp <= 0:
 		queue_free()
+
 
 # Shoot timer
 func _on_shoot_timer_timeout() -> void:

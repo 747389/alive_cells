@@ -4,6 +4,7 @@ const SPEED: float = 20.0
 
 var damige: int = 2
 
+
 # Moves the bullet
 func _physics_process(delta: float) -> void:
 	move_local_x(SPEED)
