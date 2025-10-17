@@ -76,5 +76,5 @@ func _on_damage_area_body_entered(body: Node2D) -> void:
 
 
 # Stop damageing the player if not standing on them
-func _on_damage_area_body_exited(body: Node2D) -> void:
+func _on_damage_area_body_exited(_body: Node2D) -> void:
 	being_stood_on = false

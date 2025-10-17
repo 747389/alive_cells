@@ -22,9 +22,10 @@ func _on_body_entered(body: Node2D) -> void:
 		attack_timer.start()
 
 
+# Reset attack after cooldown
 func _on_timer_timeout() -> void:
 	can_attack = true
 
-
+# Stop attacking if player is not in range 
 func _on_body_exited(_body: Node2D) -> void:
 	in_range = false

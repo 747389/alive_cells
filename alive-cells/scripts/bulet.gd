@@ -6,7 +6,7 @@ var damige: int = 2
 
 
 # Moves the bullet
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	move_local_x(SPEED)
 
 

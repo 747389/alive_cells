@@ -8,6 +8,7 @@ const POTION_REFILL_DELAY: float = 0.4
 const PLAYER_ATTACK_ANIMATION: String = "player_attack"
 const DASH_SPEED: int = 800
 const DASH_TIMER: float = 0.3
+const MAIN_MENU: String = "res://scenes/main_menu.tscn"
 
 var is_dashing: bool = false
 var charge_attack: bool = false
@@ -119,7 +120,7 @@ func hit(damage):
 	health -= damage
 	health_ui.value = health
 	if health <= 0:
-		get_tree().call_deferred("change_scene_to_file" , "res://scenes/main_menu.tscn")
+		get_tree().call_deferred("change_scene_to_file" , MAIN_MENU)
 
 
 func _on_area_entered(area: Area2D) -> void:
